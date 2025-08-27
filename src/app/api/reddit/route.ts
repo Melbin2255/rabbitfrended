@@ -4,7 +4,12 @@ import type { RedditResponse, RedditChild } from "@/types/reddit";
 
 export async function GET() {
   try {
-    const res = await fetch("https://www.reddit.com/r/reactjs.json");
+    const res = await fetch("https://www.reddit.com/r/reactjs.json", {
+      headers: {
+        "User-Agent": "my-reddit-app:v1.0.0 (by u/Careless_Explorer899)"
+      },
+      cache: "no-store"
+    });
     if (!res.ok) {
       throw new Error(`Failed to fetch posts from Reddit: ${res.status} ${res.statusText}`);
     }
