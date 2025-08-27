@@ -32,7 +32,7 @@ export default function HomePage() {
     return (
       <div className="flex items-center justify-center h-screen bg-gradient-to-br from-neutral-950 to-neutral-900">
         <h2 className="text-2xl font-semibold text-gray-300 animate-pulse">
-          Loading feed...
+          Loading feed....
         </h2>
       </div>
     );
