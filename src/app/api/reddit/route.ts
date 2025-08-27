@@ -6,13 +6,22 @@ export async function GET() {
   try {
     const res = await fetch("https://www.reddit.com/r/reactjs.json", {
       headers: {
-        "User-Agent": "my-reddit-app:v1.0.0 (by u/Careless_Explorer899)"
+        "User-Agent": "web:react-feed-viewer:1.0.0 (by u/Careless_Explorer899)",
+        "Accept": "application/json"
       },
       cache: "no-store"
     });
+
     if (!res.ok) {
-      throw new Error(`Failed to fetch posts from Reddit: ${res.status} ${res.statusText}`);
+      // Log what Reddit sent back
+      const text = await res.text();
+      console.error("Reddit error:", res.status, text);
+      return new NextResponse(
+        JSON.stringify({ error: "Reddit API failed", status: res.status }),
+        { status: 500 }
+      );
     }
+
     const data: RedditResponse = await res.json();
 
     const posts = data.data.children.map((child: RedditChild) => ({
@@ -26,11 +35,11 @@ export async function GET() {
     }));
 
     return NextResponse.json(posts);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error("Server error:", err);
     return new NextResponse(
-      JSON.stringify({ error: "Failed to fetch posts from Reddit" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      JSON.stringify({ error: "Internal server error" }),
+      { status: 500 }
     );
   }
 }
