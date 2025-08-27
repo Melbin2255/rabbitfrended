@@ -4,8 +4,18 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 
+interface Post {
+  id: string;
+  title: string;
+  selftext?: string;
+  url: string;
+  score: number;
+  link_flair_text?: string;
+  author?: string;
+}
+
 export default function HomePage() {
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -62,7 +72,7 @@ export default function HomePage() {
 
       {/* Posts Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-        {posts.map((post, index) => (
+        {posts.map((post: Post, index) => (
           <motion.div
             key={post.id}
             className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] p-6 flex flex-col justify-between hover:shadow-[0_8px_40px_rgba(0,0,0,0.6)] hover:border-gray-600 transition-all duration-300 group"
